@@ -30,14 +30,15 @@ class GetListResponseSchema(BaseModel):
         app_name: str
         action: str
         message: str
-        notes: str
-        ip_address: str
+        notes: str | None
+        ip_address: str | None
         created_at: datetime
 
     data: list[Child]
     page: int
     per_page: int
     total: int
+
 
 # define route
 @router.get("/list", response_model=GetListResponseSchema)
