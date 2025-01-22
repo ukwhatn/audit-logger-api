@@ -29,8 +29,8 @@ class CreateLogRequestSchema(BaseModel):
     app_name: str
     action: str
     message: str
-    notes: str
-    ip_address: str
+    notes: str | None = None
+    ip_address: str | None = None
 
 
 class CreateLogResponseSchema(BaseModel):

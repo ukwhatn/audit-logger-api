@@ -28,8 +28,8 @@ def create(
         app_name: str,
         action: str,
         message: str,
-        notes: str,
-        ip_address: str
+        notes: str | None = None,
+        ip_address: str | None = None
 ) -> None:
     db.add(MainLog(
         app_name=app_name,
