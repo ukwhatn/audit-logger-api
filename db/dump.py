@@ -281,7 +281,7 @@ def restore_backup(backup_file: str):
             ], env={'PGPASSWORD': DB_PASSWORD}, check=True, capture_output=True)
 
             # バックアップを復元
-            restore_result = subprocess.run([
+            subprocess.run([
                 'psql',
                 f'--host={DB_HOST}',
                 f'--dbname={DB_NAME}',

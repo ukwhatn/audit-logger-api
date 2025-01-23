@@ -1,4 +1,3 @@
-import sentry_sdk
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi import Request, Response
 from fastapi.security import APIKeyHeader
