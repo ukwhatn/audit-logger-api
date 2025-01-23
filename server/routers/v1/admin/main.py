@@ -43,15 +43,15 @@ class GetListResponseSchema(BaseModel):
 # define route
 @router.get("/list", response_model=GetListResponseSchema)
 async def get_list(
-        request: Request,
-        response: Response,
-        admin_name: str = Depends(admin_key_name),
-        admin_key: str = Depends(admin_key_header),
-        db: Session = Depends(db_context),
-        page: int = 1,
-        per_page: int = 100,
-        order_by: str = "created_at",
-        order: str = "desc",
+    request: Request,
+    response: Response,
+    admin_name: str = Depends(admin_key_name),
+    admin_key: str = Depends(admin_key_header),
+    db: Session = Depends(db_context),
+    page: int = 1,
+    per_page: int = 100,
+    order_by: str = "created_at",
+    order: str = "desc",
 ):
     # authenticate
     if not check_admin_key(admin_name, admin_key):
@@ -64,7 +64,14 @@ async def get_list(
     if per_page < 1:
         per_page = 1
 
-    if order_by not in ["app_name", "action", "message", "notes", "ip_address", "created_at"]:
+    if order_by not in [
+        "app_name",
+        "action",
+        "message",
+        "notes",
+        "ip_address",
+        "created_at",
+    ]:
         order_by = "created_at"
 
     if order not in ["asc", "desc"]:
@@ -82,10 +89,11 @@ async def get_list(
                 "message": datum.message,
                 "notes": datum.notes,
                 "ip_address": datum.ip_address,
-                "created_at": datum.created_at
-            } for datum in data
+                "created_at": datum.created_at,
+            }
+            for datum in data
         ],
         "page": page,
         "per_page": per_page,
-        "total": total
+        "total": total,
     }

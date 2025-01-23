@@ -38,12 +38,12 @@ class CreateLogResponseSchema(BaseModel):
 
 @router.post("/logging", response_model=CreateLogResponseSchema)
 def create_log(
-        request: Request,
-        response: Response,
-        data: CreateLogRequestSchema,
-        db: Session = Depends(db_context),
-        app_name: str = Depends(app_name_header),
-        app_key: str = Depends(app_key_header)
+    request: Request,
+    response: Response,
+    data: CreateLogRequestSchema,
+    db: Session = Depends(db_context),
+    app_name: str = Depends(app_name_header),
+    app_key: str = Depends(app_key_header),
 ):
     # authenticate
     if not check_app_key(app_name, app_key):
@@ -55,12 +55,7 @@ def create_log(
 
     # create log
     log_create(
-        db,
-        data.app_name,
-        data.action,
-        data.message,
-        data.notes,
-        data.ip_address
+        db, data.app_name, data.action, data.message, data.notes, data.ip_address
     )
     response.status_code = 201
     return {"message": "Log created"}

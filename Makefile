@@ -75,7 +75,7 @@ lint\:fix:
 	poetry run ruff check --fix .
 
 format:
-	poetry run ruff format server/
+	poetry run ruff format .
 
 db\:revision\:create:
 	docker compose -f $(COMPOSE_YML) build db-migrator

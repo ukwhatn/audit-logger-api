@@ -7,9 +7,5 @@ from .admin import main as admin_router
 router = APIRouter()
 
 # add routers
-router.include_router(
-    root_router.router
-)
-router.include_router(
-    admin_router.router
-)
+router.include_router(root_router.router)
+router.include_router(admin_router.router)
