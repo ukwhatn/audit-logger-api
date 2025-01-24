@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from db.package.crud.main_log import get_for_list as get_main_logs
 from db.package.session import db_context
 from util.env import get_api_keys
+from db.package.models import LogLevel
 
 # define router
 router = APIRouter()
@@ -30,6 +31,7 @@ class GetListResponseSchema(BaseModel):
         app_name: str
         action: str
         message: str
+        level: str
         notes: str | None
         ip_address: str | None
         created_at: datetime
@@ -48,6 +50,7 @@ async def get_list(
     admin_name: str = Depends(admin_key_name),
     admin_key: str = Depends(admin_key_header),
     db: Session = Depends(db_context),
+    level: str | None = None,
     page: int = 1,
     per_page: int = 100,
     order_by: str = "created_at",
@@ -68,6 +71,7 @@ async def get_list(
         "app_name",
         "action",
         "message",
+        "level",
         "notes",
         "ip_address",
         "created_at",
@@ -78,7 +82,7 @@ async def get_list(
         order = "desc"
 
     # get data
-    data, total = get_main_logs(db, page, per_page, order_by, order)
+    data, total = get_main_logs(db, level, page, per_page, order_by, order)
 
     # return
     return {
@@ -87,6 +91,7 @@ async def get_list(
                 "app_name": datum.app_name,
                 "action": datum.action,
                 "message": datum.message,
+                "level": str(LogLevel.from_int(datum.level)),
                 "notes": datum.notes,
                 "ip_address": datum.ip_address,
                 "created_at": datum.created_at,

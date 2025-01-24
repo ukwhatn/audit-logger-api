@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from db.package.crud.main_log import create as log_create
 from db.package.session import db_context
 from util.env import get_api_keys
+from db.package.models import LogLevel
 
 # define router
 router = APIRouter()
@@ -28,6 +29,7 @@ class CreateLogRequestSchema(BaseModel):
     app_name: str
     action: str
     message: str
+    level: str = "INFO"
     notes: str | None = None
     ip_address: str | None = None
 
@@ -53,9 +55,18 @@ def create_log(
     if data.app_name != app_name:
         raise HTTPException(status_code=400, detail="Invalid app name")
 
+    if data.level not in ["DEBUG", "INFO", "ERROR"]:
+        raise HTTPException(status_code=400, detail="Invalid level")
+
     # create log
     log_create(
-        db, data.app_name, data.action, data.message, data.notes, data.ip_address
+        db,
+        data.app_name,
+        data.action,
+        data.message,
+        LogLevel.from_str(data.level),
+        data.notes,
+        data.ip_address,
     )
     response.status_code = 201
     return {"message": "Log created"}
