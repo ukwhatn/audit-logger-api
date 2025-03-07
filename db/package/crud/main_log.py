@@ -3,7 +3,7 @@ from typing import Type
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from ..models import MainLog
+from ..models import MainLog, LogLevel
 
 
 def get(db: Session, main_log_id: int) -> MainLog | None:
@@ -11,34 +11,49 @@ def get(db: Session, main_log_id: int) -> MainLog | None:
 
 
 def get_for_list(
-        db: Session,
-        page: int = 1,
-        per_page: int = 10,
-        order_by: str = "created_at",
-        order: str = "desc"
+    db: Session,
+    level: str | None = None,
+    page: int = 1,
+    per_page: int = 10,
+    order_by: str = "created_at",
+    order: str = "desc",
 ) -> tuple[list[Type[MainLog]], int]:
-    all_data = db.query(MainLog)
+    queries = []
+
+    if level is not None:
+        queries.append(MainLog.level == LogLevel.from_str(level).value)
+
+    all_data = db.query(MainLog).filter(*queries)
+
     total = all_data.count()
-    data = all_data.order_by(text(order_by + " " + order)).limit(per_page).offset((page - 1) * per_page).all()
+    data = (
+        all_data.order_by(text(order_by + " " + order))
+        .limit(per_page)
+        .offset((page - 1) * per_page)
+        .all()
+    )
     return data, total
 
 
 def create(
-        db: Session,
-        app_name: str,
-        action: str,
-        message: str,
-        notes: str | None = None,
-        ip_address: str | None = None
+    db: Session,
+    app_name: str,
+    action: str,
+    message: str,
+    notes: str | None = None,
+    ip_address: str | None = None,
 ) -> None:
-    db.add(MainLog(
-        app_name=app_name,
-        action=action,
-        message=message,
-        notes=notes if notes != "" else None,
-        ip_address=ip_address if ip_address != "" else None
-    ))
+    db.add(
+        MainLog(
+            app_name=app_name,
+            action=action,
+            message=message,
+            notes=notes if notes != "" else None,
+            ip_address=ip_address if ip_address != "" else None,
+        )
+    )
     db.commit()
+
 
 # ------
 # Template

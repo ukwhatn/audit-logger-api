@@ -1,4 +1,4 @@
-FROM python:3.12.7-slim AS builder
+FROM python:3.13.2-slim AS builder
 
 # timezone
 ENV TZ=Asia/Tokyo
@@ -7,7 +7,7 @@ WORKDIR /app
 
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y libpq-dev gcc make postgresql-common && \
+    apt install -y libpq-dev build-essential make postgresql-common && \
     /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -i -v 17 && \
     apt install -y postgresql-client-17 && \
     apt clean
