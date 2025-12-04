@@ -12,14 +12,14 @@ python = "^3.10"
 optional = true
 [tool.poetry.group.server.dependencies]
 redis = "^6.1.0"
-fastapi = {extras = ["standard"], version = "^0.117.1"}
+fastapi = {extras = ["standard"], version = "^0.123.5"}
 sentry-sdk = {extras = ["fastapi"], version = "^2.19.2"}
-newrelic = "^10.3.1"
+newrelic = "^11.0.0"
 
 [tool.poetry.group.dev]
 optional = true
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.13.0"
+ruff = "^0.14.0"
 
 [tool.poetry.group.db]
 optional = true
