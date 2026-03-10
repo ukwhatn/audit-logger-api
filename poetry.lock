@@ -710,18 +710,21 @@ infinite-tracing = ["grpcio", "protobuf"]
 
 [[package]]
 name = "pick"
-version = "2.4.0"
+version = "2.6.0"
 description = "Pick an option in the terminal with a simple GUI"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 groups = ["dumper"]
 files = [
-    {file = "pick-2.4.0-py3-none-any.whl", hash = "sha256:2b07be18d16d655c7f491e1ecca7a29de3be85e1e000c8d46193672f14faa203"},
-    {file = "pick-2.4.0.tar.gz", hash = "sha256:71f1b1b5d83652f87652fea5f51a3ba0b3388a71718cdcf8c6bc1326f85ae0b9"},
+    {file = "pick-2.6.0-py3-none-any.whl", hash = "sha256:2acd5cad09be96398fba3b8be89454929de7b05362e01c69d94a05801820871f"},
+    {file = "pick-2.6.0.tar.gz", hash = "sha256:f24434a845ae9265ebf7657fc224b9a203ac75aa576b568e061484a72e27be82"},
 ]
 
 [package.dependencies]
-windows-curses = {version = ">=2.2.0,<3.0.0", markers = "sys_platform == \"win32\""}
+windows-curses = {version = ">=2.2.0", markers = "platform_system == \"Windows\""}
+
+[package.extras]
+blessed = ["blessed (>=1.17.0)"]
 
 [[package]]
 name = "psycopg2-binary"
@@ -1913,7 +1916,7 @@ description = "Support for the standard curses module on Windows"
 optional = false
 python-versions = "*"
 groups = ["dumper"]
-markers = "sys_platform == \"win32\""
+markers = "platform_system == \"Windows\""
 files = [
     {file = "windows_curses-2.4.1-cp310-cp310-win32.whl", hash = "sha256:53d711e07194d0d3ff7ceff29e0955b35479bc01465d46c3041de67b8141db2f"},
     {file = "windows_curses-2.4.1-cp310-cp310-win_amd64.whl", hash = "sha256:325439cd4f37897a1de8a9c068a5b4c432f9244bf9c855ee2fbeb3fa721a770c"},
